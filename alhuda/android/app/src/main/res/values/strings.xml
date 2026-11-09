@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">ALHUDA MOBILE</string>
-    <!-- GANTI dengan URL Web App hasil Deploy Google Apps Script (berakhiran /exec) -->
-    <string name="web_app_url">https://script.google.com/macros/s/AKfycbz2GGj13xaT3npq_rNyTfcO50H0N6iCby3dm3Li1xAggLA0bYsWt5pn9hxMIGybF_OK/exec</string>
-</resources>
