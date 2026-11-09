@@ -1,4 +1,4 @@
-# ALHUDA MOBILE — Panduan Pemasangan
+﻿# ALHUDA MOBILE — Panduan Pemasangan
 
 Aplikasi manajemen administrasi & akademik YPI Dayah Al-Huda Malikussaleh.
 Semua data tersimpan di **Google Sheets**. Aplikasi membaca dan menulis langsung ke sheet melalui **Google Apps Script**, jadi perubahan di sheet langsung tampil di aplikasi, dan sebaliknya.
@@ -43,6 +43,7 @@ alhuda/
 ### Cara A — Tanpa Android Studio (lewat GitHub, gratis)
 1. Buat akun di **github.com**, lalu buat repository baru (misalnya `alhuda-mobile`, boleh *Private*).
 2. Buka file `android/app/src/main/res/values/strings.xml`, lalu ganti `GANTI_DENGAN_ID_DEPLOYMENT…` dengan URL Web App dari Langkah 2.
+
 3. Unggah **seluruh isi folder `alhuda/`** ke repository. Folder tersembunyi `.github` harus ikut terunggah. Caranya: di halaman repo pilih **Add file → Upload files**, lalu seret semua isi folder.
 4. Buka tab **Actions** di repo. Proses "Build APK ALHUDA MOBILE" berjalan otomatis selama ±5 menit.
 5. Setelah selesai (tanda centang hijau), klik proses tersebut. Di bagian **Artifacts**, unduh **ALHUDA-MOBILE-APK**, lalu ekstrak zip-nya untuk mendapatkan `ALHUDA-MOBILE.apk`.
@@ -96,3 +97,4 @@ Santri hanya bisa melihat absensi, nilai, iuran, dan saldo miliknya sendiri. Isi
 ## Mengubah data langsung di Sheets
 Semua sheet bisa diedit langsung, misalnya menambah kelas di sheet **Kelas** (kolom `jenjang`: Wustha / Ulya / Salafi) atau mengubah jam sesi di sheet **Sesi**. Jangan mengubah nama kolom pada baris pertama.
 Tahun ajaran dan semester aktif diatur di sheet **Pengaturan** atau di menu **Pengaturan → Pengaturan Aplikasi**.
+
