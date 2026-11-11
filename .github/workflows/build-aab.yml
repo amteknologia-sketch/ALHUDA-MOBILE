@@ -1,0 +1,51 @@
+name: Build AAB Play Store ALHUDA MOBILE
+
+# Hanya dijalankan MANUAL dari tab Actions → tidak mengganggu build APK yang sudah ada.
+on:
+  workflow_dispatch:
+
+jobs:
+  aab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v3
+
+      - name: Cek Secrets keystore
+        env:
+          KS: ${{ secrets.ALHUDA_KEYSTORE_BASE64 }}
+          P1: ${{ secrets.ALHUDA_KS_PASSWORD }}
+          P2: ${{ secrets.ALHUDA_KEY_ALIAS }}
+          P3: ${{ secrets.ALHUDA_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KS" ] || [ -z "$P1" ] || [ -z "$P2" ] || [ -z "$P3" ]; then
+            echo "::error::Secrets keystore belum lengkap. Jalankan dulu 'Buat Keystore Play Store', lalu isi 4 Secrets (lihat PANDUAN_PLAYSTORE.md)."
+            exit 1
+          fi
+          echo "$KS" | base64 -d > "$RUNNER_TEMP/alhuda-upload.jks"
+
+      - name: Siapkan versi Play Store (target Android 16)
+        run: bash playstore/prepare.sh $((100 + ${{ github.run_number }}))
+
+      - name: Build AAB
+        working-directory: android
+        env:
+          ALHUDA_KS_FILE: ${{ runner.temp }}/alhuda-upload.jks
+          ALHUDA_KS_PASSWORD: ${{ secrets.ALHUDA_KS_PASSWORD }}
+          ALHUDA_KEY_ALIAS: ${{ secrets.ALHUDA_KEY_ALIAS }}
+          ALHUDA_KEY_PASSWORD: ${{ secrets.ALHUDA_KEY_PASSWORD }}
+        run: chmod +x gradlew && ./gradlew bundleRelease --no-daemon
+
+      - name: Ganti nama file
+        run: cp android/app/build/outputs/bundle/release/app-release.aab ALHUDA-MOBILE-PLAYSTORE.aab
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ALHUDA-MOBILE-AAB
+          path: ALHUDA-MOBILE-PLAYSTORE.aab
